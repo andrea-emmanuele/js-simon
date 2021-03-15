@@ -5,6 +5,9 @@
     <title>Simon says</title>
     <style>
         body {
+            background: #dee2ff;
+            color: #fff;
+            text-shadow: 1px 1px 1px #000;
             height: 100vh;
             display: flex;
             flex-direction: column;
@@ -55,7 +58,7 @@
         function timer() {
             let userNums = [];
 
-            if (seconds === 28) {
+            if (seconds === 0) {
                 $("p:first-child").remove();
                 $("div").remove();
                 for (let i = 0; i < 5; i++) {
