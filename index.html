@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simon says</title>
+    <style>
+        body {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        p {
+            font-size: 1.6rem;
+        }
+
+        p:first-child {
+            margin-top: 25vh;
+        }
+
+        p:last-of-type {
+            display: none;
+        }
+
+        div {
+            font-size: 2.4rem;
+            width: 50vh;
+            display: flex;
+            justify-content: space-around;
+        }
+    </style>
+</head>
+<body>
+    <p>Mancano <span id="timer">30</span> secondi alla scomparsa dei numeri! Memorizzali!</p>
+    <div></div>
+    <p>Hai indovinato <span id="qty"></span> su 5! <span id="guessed"></span></p>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+        let nums = [];
+        let seconds = 30;
+
+        for (let i = 0; i < 5; i++) {
+            nums.push(random());
+            $("body > div").append("<span>" + nums[i] + "</span>");
+        }
+
+        let time = setInterval(timer, 1000);
+
+        function random() {
+            return Math.floor(Math.random() * 100 + 1);
+        }
+
+        function timer() {
+            let userNums = [];
+
+            if (seconds === 28) {
+                $("p:first-child").remove();
+                $("div").remove();
+                for (let i = 0; i < 5; i++) {
+                    userNums.push(parseInt(prompt("Inserisci un numero provando a ricordare quelli che hai visto in precedenza!")));
+                }
+                clearTimeout(time);
+                compare(userNums, nums);
+            }
+            else {
+                seconds--;
+                $("#timer").html(seconds);
+            }
+        }
+
+        function compare(userNums, nums) {
+            console.log(userNums);
+            console.log(nums);
+
+            let guessed = [];
+            let k = 0;
+
+            for (let i = 0; i < userNums.length; i++) {
+                for (let j = 0; j < nums.length; j++) {
+                    if (userNums[i] === nums[j]) {
+                        guessed.push(userNums[i] + " ");
+                        k++;
+                    }
+                }
+            }
+
+            $("#qty").html(k);
+            $("#guessed").html(guessed);
+            $("p:last-of-type").show();
+        }
+    </script>
+</body>
+</html>
